@@ -1,12 +1,28 @@
 import AcmeLogo from '@/app/ui/acme-logo';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+// import { neon } from '@neondatabase/serverless';
 
 export default function Page() {
+  //   async function create(formData: FormData) {
+  //   'use server';
+  //   const sql = neon(`${process.env.DATABASE_URL}`);
+  //   const comment = formData.get('comment') as string;
+
+  //   await sql`
+  //     INSERT INTO comments (comment) 
+  //     VALUES (${comment});
+  //   `;
+  // }
+
   return (
     <main className="flex min-h-screen flex-col p-6">
       <div className="flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-52">
         {/* <AcmeLogo /> */}
+        {/* <form action={create}>
+          <input type="text" placeholder="write a comment" name="comment" />
+          <button type="submit">Submit</button>
+        </form> */}
       </div>
       <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
         <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-6 py-10 md:w-2/5 md:px-20">
