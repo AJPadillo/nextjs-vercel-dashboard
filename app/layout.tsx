@@ -1,7 +1,6 @@
 import { montserrat } from './ui/fonts';
 import './ui/global.css'
 
-
 export default function RootLayout({
   children,
 }: {
