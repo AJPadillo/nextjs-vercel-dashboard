@@ -9,9 +9,12 @@ import { Suspense } from 'react';
 export default function Page({
     searchParams,
 }: {
-    searchParams?: Record<string, string | undefined>;
+    searchParams?: {
+        query?: string;
+        page?: number;
+    }
 }) {
-    const query = searchParams?.query ?? "";
+    const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
 
     return (
