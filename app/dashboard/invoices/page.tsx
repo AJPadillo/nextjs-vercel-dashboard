@@ -6,11 +6,7 @@ import { lusitana } from '@/app/ui/fonts';
 import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
 
-export default function Page({
-    searchParams,
-}: {
-    searchParams?: Record<string, string | undefined> | undefined;
-}) {
+export default async function Page({ searchParams }: { searchParams?: Record<string, string | undefined> }) {
     const query = searchParams?.query ?? "";
     const currentPage = Number(searchParams?.page) || 1;
 
