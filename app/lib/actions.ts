@@ -3,7 +3,6 @@
 // y no se ejecuta ni envian al cliente. Esto es importante para evitar errores de compilación
 
 import { date, z } from 'zod'
-import { Invoice } from './definitions'
 import { neon } from '@neondatabase/serverless';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
@@ -41,6 +40,6 @@ export async function createInvoice(formData: FormData) {
         VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
         `
 
-    revalidatePath('dashboard/invoices')
-    redirect('/dashboard/invoices')
+    revalidatePath('dashboard/invoices') //Revalidamos la ruta para que se actualice el cache y se vea el nuevo invoice creado
+    redirect('/dashboard/invoices') //Redirigimos a la ruta de invoices para que se vea el nuevo invoice creado
 }
