@@ -22,6 +22,8 @@ const CreateInvoiceFormSchema = CreateInvoiceSchema.omit({
     date: true
 })
 
+const UpdateInvoiceSchema = CreateInvoiceFormSchema;
+
 export async function createInvoice(formData: FormData) {
     const { customerId, amount, status } = CreateInvoiceFormSchema.parse({
         customerId: formData.get('customerId'),
@@ -42,4 +44,28 @@ export async function createInvoice(formData: FormData) {
 
     revalidatePath('dashboard/invoices') //Revalidamos la ruta para que se actualice el cache y se vea el nuevo invoice creado
     redirect('/dashboard/invoices') //Redirigimos a la ruta de invoices para que se vea el nuevo invoice creado
+}
+
+export async function updateInvoice(id: string, formData: FormData) {
+    const { customerId, amount, status } = UpdateInvoiceSchema.parse({
+        customerId: formData.get('customerId'),
+        amount: formData.get('amount'),
+        status: formData.get('status'),
+    });
+
+    const amountInCents = amount * 100;
+
+    await sql`
+      UPDATE invoices
+      SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+      WHERE id = ${id}
+    `;
+
+    revalidatePath('/dashboard/invoices');
+    redirect('/dashboard/invoices');
+}
+
+export async function deleteInvoice(id: string) {
+    await sql`DELETE FROM invoices WHERE id = ${id}`;
+    revalidatePath('/dashboard/invoices');
 }
