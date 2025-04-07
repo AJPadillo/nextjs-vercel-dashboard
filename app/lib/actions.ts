@@ -37,10 +37,14 @@ export async function createInvoice(formData: FormData) {
     //Creamos la fecha actual (2015-11-12 <- en este formato)
     const [date] = new Date().toISOString().split('T')
 
-    await sql`
-        INSERT INTO invoices (customer_id, amount, status, date)
-        VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
-        `
+    try {
+        await sql`
+          INSERT INTO invoices (customer_id, amount, status, date)
+          VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
+        `;
+    } catch (error) {
+        console.error(error);
+    }
 
     revalidatePath('dashboard/invoices') //Revalidamos la ruta para que se actualice el cache y se vea el nuevo invoice creado
     redirect('/dashboard/invoices') //Redirigimos a la ruta de invoices para que se vea el nuevo invoice creado
@@ -55,11 +59,15 @@ export async function updateInvoice(id: string, formData: FormData) {
 
     const amountInCents = amount * 100;
 
-    await sql`
-      UPDATE invoices
-      SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
-      WHERE id = ${id}
-    `;
+    try {
+        await sql`
+            UPDATE invoices
+            SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+            WHERE id = ${id}
+          `;
+    } catch (error) {
+        console.error(error);
+    }
 
     revalidatePath('/dashboard/invoices');
     redirect('/dashboard/invoices');
