@@ -5,7 +5,7 @@
 import { date, z } from 'zod'
 import { Invoice } from './definitions'
 
-const CreateInvoiceFormSchema = z.object({
+const CreateInvoiceSchema = z.object({
     id: z.string(),
     customerId: z.string(),
     amount: z.coerce.number(),
@@ -13,12 +13,18 @@ const CreateInvoiceFormSchema = z.object({
     date: z.string()
 })
 
-
+const CreateInvoiceFormSchema = CreateInvoiceSchema.omit({
+    id: true,
+    date: true
+})
 
 export async function createInvoice(formData: FormData) {
-    const rawFormData = {
+    const { customerId, amount, status } = CreateInvoiceFormSchema.parse({
         customerID: formData.get('customerId'),
         amount: formData.get('amount'),
         status: formData.get('status'),
-    }
+    })
+
+    //Transformamos para evitar el redondeo de los decimales
+    const amountInCents = amount * 100
 }
