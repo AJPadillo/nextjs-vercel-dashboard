@@ -216,3 +216,14 @@ export function InvoicesTableSkeleton() {
     </div>
   );
 }
+
+export function CustomersTableSkeleton() {
+  return (
+    <div className="w-full animate-pulse">
+      <div className="h-8 w-1/4 bg-gray-200 rounded mb-4" />
+      <div className="h-12 w-full bg-gray-200 rounded mb-2" />
+      <div className="h-12 w-full bg-gray-200 rounded mb-2" />
+      <div className="h-12 w-full bg-gray-200 rounded mb-2" />
+    </div>
+  );
+}
