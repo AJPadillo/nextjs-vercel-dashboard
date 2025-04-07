@@ -1,15 +1,21 @@
 'use client';
 
 import { CustomerField, InvoiceForm } from '@/app/lib/definitions';
-import {
-  CheckIcon,
-  ClockIcon,
-  CurrencyDollarIcon,
-  UserCircleIcon,
-} from '@heroicons/react/24/outline';
+import { CheckIcon, ClockIcon, CurrencyDollarIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { updateInvoice } from '@/app/lib/actions';
+import { useState } from 'react';
+
+type State = {
+  message: string | null;
+  errors: {
+    customerId?: string[];
+    amount?: string[];
+    status?: string[];
+    general?: string;
+  };
+};
 
 export default function EditInvoiceForm({
   invoice,
@@ -18,9 +24,33 @@ export default function EditInvoiceForm({
   invoice: InvoiceForm;
   customers: CustomerField[];
 }) {
-  const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
+  const initialState: State = { message: null, errors: {} };
+  const [state, setState] = useState(initialState);
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    // Aquí usamos un type assertion para asegurar que event.currentTarget es un HTMLFormElement
+    const formData = new FormData(event.currentTarget as HTMLFormElement);
+
+    try {
+      const result = await updateInvoice(invoice.id, state, formData);
+
+      if (result && result.errors) {
+        setState({ ...state, errors: result.errors });
+      } else if (result && result.message) {
+        setState({ ...state, message: result.message });
+      } else {
+        setState({ ...state, errors: { general: 'Unexpected response from server.' } });
+      }
+    } catch (error) {
+      setState({ ...state, errors: { general: 'An error occurred while updating the invoice.' } });
+      console.error(error);
+    }
+  };
+
   return (
-    <form action={updateInvoiceWithId}>
+    <form onSubmit={handleSubmit}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
