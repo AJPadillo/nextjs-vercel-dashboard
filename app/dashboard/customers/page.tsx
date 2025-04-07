@@ -1,7 +1,5 @@
-import Search from '@/app/ui/search';
 import Pagination from '@/app/ui/invoices/pagination';
 import CustomersTable from '@/app/ui/customers/table';
-import { lusitana } from '@/app/ui/fonts';
 import { fetchCustomersPages, fetchFilteredCustomers } from '@/app/lib/data';
 import { CustomersTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
@@ -27,13 +25,6 @@ export default async function CustomersPage({
 
     return (
         <div className="w-full">
-            <div className="flex w-full items-center justify-between">
-                <h1 className={`${lusitana.className} text-2xl`}>Customers</h1>
-                {/* <CreateCustomer /> */}
-            </div>
-            <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-                <Search placeholder="Search customers..." />
-            </div>
             <Suspense fallback={<CustomersTableSkeleton />}>
                 <CustomersTable customers={customers} />
             </Suspense>
