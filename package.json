@@ -4,7 +4,8 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -30,6 +31,8 @@
     "@types/node": "22.10.7",
     "@types/react": "19.0.7",
     "@types/react-dom": "19.0.3",
+    "eslint": "^8",
+    "eslint-config-next": "15.2.4",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.3"
   }
